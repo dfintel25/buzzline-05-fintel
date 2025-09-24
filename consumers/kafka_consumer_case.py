@@ -28,9 +28,11 @@ import json
 import os
 import pathlib
 import sys
+import time
 
 # import external modules
 from kafka import KafkaConsumer
+from kafka.errors import KafkaError
 
 # import from local modules
 import utils.utils_config as config

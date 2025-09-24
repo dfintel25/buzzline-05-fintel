@@ -202,11 +202,11 @@ def main() -> None:
 
             # --- SQLite ---
             # Uncomment to enable SQLite sink:
-            # emit_to_sqlite(message, db_path=sqlite_path)
+            emit_to_sqlite(message, db_path=sqlite_path)
 
             # --- DuckDB ---
             # Uncomment to enable DuckDB sink:
-            # emit_to_duckdb(message, db_path=duckdb_path)
+            emit_to_duckdb(message, db_path=duckdb_path)
 
             time.sleep(interval_secs)
 

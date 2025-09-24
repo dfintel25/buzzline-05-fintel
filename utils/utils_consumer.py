@@ -10,6 +10,7 @@ Consumers subscribe to a topic and read messages from the Kafka topic.
 
 # Import packages from Python Standard Library
 from typing import Optional, Callable
+import json
 
 # Import external packages
 from kafka import KafkaConsumer
@@ -62,9 +63,20 @@ def create_kafka_consumer(
 
     consumer_group_id = (group_id_provided or DEFAULT_CONSUMER_GROUP).strip()
 
-    value_deserializer: Callable[[bytes], str] = value_deserializer_provided or (
-        lambda x: x.decode("utf-8")
-    )
+   # value_deserializer: Callable[[bytes], str] = value_deserializer_provided or (
+   #     lambda x: x.decode("utf-8")
+   # )
+
+    if value_deserializer_provided is None:
+        def default_deserializer(x: bytes):
+            try:
+                return json.loads(x.decode("utf-8"))
+            except Exception:
+                # Fallback: return raw string if not valid JSON
+                return x.decode("utf-8")
+        value_deserializer = default_deserializer
+    else:
+        value_deserializer = value_deserializer_provided
 
     logger.info(
         f"Creating Kafka consumer. Topic='{topic}' and group ID='{consumer_group_id}'."
