@@ -13,7 +13,7 @@ from typing import Optional, Callable
 
 # Import external packages
 from kafka import KafkaConsumer
-#from kafka.admin import KafkaAdminClient
+from kafka.admin import KafkaAdminClient
 
 # Import functions from local modules
 from utils.utils_logger import logger
@@ -101,8 +101,7 @@ def is_topic_available(topic_name: str, bootstrap_servers: Optional[str] = None)
     Returns:
         bool: True if topic exists, False otherwise.
     """
-    from .utils_producer import get_kafka_broker_address
-
+    # Use the module-level import
     broker = bootstrap_servers or get_kafka_broker_address()
 
     try:
