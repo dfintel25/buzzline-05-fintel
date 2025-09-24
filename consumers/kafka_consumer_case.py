@@ -36,7 +36,7 @@ from kafka import KafkaConsumer
 import utils.utils_config as config
 from utils.utils_consumer import create_kafka_consumer
 from utils.utils_logger import logger
-from utils.utils_producer import verify_services, is_topic_available
+from utils.utils_producer import verify_services
 from utils.utils_consumer import is_topic_available
 
 # Ensure the parent directory is in sys.path
