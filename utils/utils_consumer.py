@@ -13,7 +13,7 @@ from typing import Optional, Callable
 
 # Import external packages
 from kafka import KafkaConsumer
-from kafka.admin import KafkaAdminClient
+#from kafka.admin import KafkaAdminClient
 
 # Import functions from local modules
 from utils.utils_logger import logger
