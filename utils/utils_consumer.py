@@ -13,6 +13,7 @@ from typing import Optional, Callable
 
 # Import external packages
 from kafka import KafkaConsumer
+from kafka.admin import KafkaAdminClient
 
 # Import functions from local modules
 from utils.utils_logger import logger
@@ -87,3 +88,28 @@ def create_kafka_consumer(
     except Exception as e:
         logger.error(f"Error creating Kafka consumer: {e}")
         raise
+
+def is_topic_available(topic_name: str, bootstrap_servers: Optional[str] = None) -> bool:
+    """
+    Check if a Kafka topic exists on the broker.
+
+    Args:
+        topic_name (str): The Kafka topic to check.
+        bootstrap_servers (str, optional): Broker address. 
+            If not provided, will use get_kafka_broker_address().
+
+    Returns:
+        bool: True if topic exists, False otherwise.
+    """
+    from .utils_producer import get_kafka_broker_address
+
+    broker = bootstrap_servers or get_kafka_broker_address()
+
+    try:
+        admin = KafkaAdminClient(bootstrap_servers=broker)
+        topics = admin.list_topics()
+        admin.close()
+        return topic_name in topics
+    except Exception as e:
+        logger.error(f"Error checking topic availability: {e}")
+        return False
