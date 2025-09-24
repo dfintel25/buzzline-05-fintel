@@ -197,6 +197,8 @@ def main() -> None:
             # --- Kafka ---
             if producer is not None:
                 emit_to_kafka(message, producer=producer, topic=topic)
+                producer.flush()  # Force immediate delivery
+                logger.info("Flushed Kafka message")
 
             # --- SQLite ---
             # Uncomment to enable SQLite sink:
