@@ -19,6 +19,7 @@ AUTOINCREMENT is not necessary and often discouraged.
 import sqlite3
 import pathlib
 from typing import Mapping, Any
+import pandas as pd
 
 from utils.utils_logger import logger
 
@@ -31,7 +32,9 @@ CREATE TABLE IF NOT EXISTS streamed_messages (
     category TEXT,
     sentiment REAL,
     keyword_mentioned TEXT,
-    message_length INTEGER
+    message_length INTEGER, 
+    department_ID TEXT,
+    job_classification TEXT
 );
 """
 
@@ -72,6 +75,8 @@ def emit_message(message: Mapping[str, Any], *, db_path: pathlib.Path) -> bool:
                     float(message.get("sentiment", 0.0)),
                     message.get("keyword_mentioned"),
                     int(message.get("message_length", 0)),
+                    message.get("department_ID"),
+                    message.get("job_classification"),
                 ),
             )
             conn.commit()
@@ -80,3 +85,10 @@ def emit_message(message: Mapping[str, Any], *, db_path: pathlib.Path) -> bool:
     except Exception as e:
         logger.error(f"[sqlite_emitter] failed to insert into {db_path}: {e}")
         return False
+
+def append_to_csv(message: dict, csv_path: pathlib.Path):
+    df = pd.DataFrame([message])
+    if csv_path.exists():
+        df.to_csv(csv_path, mode='a', header=False, index=False)
+    else:
+        df.to_csv(csv_path, mode='w', header=True, index=False)

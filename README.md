@@ -195,6 +195,8 @@ py -m consumers.sqlite_consumer_case.py
 OR
 #py -m consumers.duckdb_consumer_case.py
 py -m consumers.duckdb_consumer_case
+
+py -m consumers.consumer_fintel
 ```
 
 Mac/Linux:

@@ -217,6 +217,9 @@ def main() -> None:
             # Uncomment to enable DuckDB sink:
             emit_to_duckdb(message, db_path=duckdb_path)
 
+            csv_path = pathlib.Path("data/survey_messages.csv")
+            sqlite_emitter.append_to_csv(message, csv_path)# --- CSV ---
+    
             time.sleep(interval_secs)
 
     except KeyboardInterrupt:
