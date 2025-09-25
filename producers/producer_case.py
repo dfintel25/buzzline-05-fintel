@@ -82,6 +82,9 @@ def generate_messages():
         "game": "gaming",
     }
 
+    DEPARTMENTS = ["D1_Finance", "D2_Mfg", "D3_Legal", "D4_HR", "D5_Operations", "D6_Logistics"]
+    JOB_CLASSES = ["associate", "senior", "lead", "Level 1", "Level 2", "Hourly"]
+
     while True:
         adjective = random.choice(ADJECTIVES)
         action = random.choice(ACTIONS)
@@ -94,6 +97,9 @@ def generate_messages():
         category = KEYWORD_CATEGORIES.get(keyword_mentioned, "other")
         sentiment = assess_sentiment(message_text)
 
+        department_ID = random.choice(DEPARTMENTS)
+        job_classification = random.choice(JOB_CLASSES)
+
         yield {
             "message": message_text,
             "author": author,
@@ -102,7 +108,10 @@ def generate_messages():
             "sentiment": sentiment,
             "keyword_mentioned": keyword_mentioned,
             "message_length": len(message_text),
+            "department_ID": department_ID,
+            "job_classification": job_classification,
         }
+
 
 
 #####################################
