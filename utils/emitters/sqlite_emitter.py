@@ -40,6 +40,9 @@ CREATE TABLE IF NOT EXISTS streamed_messages (
 
 
 def _ensure_table(conn: sqlite3.Connection) -> None:
+    # Drop the old table (if it exists) so new columns are included
+    conn.execute("DROP TABLE IF EXISTS streamed_messages;")
+    # Recreate the table with the full schema
     conn.execute(_TABLE_SQL)
     conn.commit()
 
@@ -63,9 +66,9 @@ def emit_message(message: Mapping[str, Any], *, db_path: pathlib.Path) -> bool:
                 """
                 INSERT INTO streamed_messages (
                     message, author, timestamp, category, sentiment,
-                    keyword_mentioned, message_length
+                    keyword_mentioned, message_length, department_ID, job_classification
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     message.get("message"),
