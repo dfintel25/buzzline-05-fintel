@@ -40,9 +40,6 @@ CREATE TABLE IF NOT EXISTS streamed_messages (
 
 
 def _ensure_table(conn: sqlite3.Connection) -> None:
-    # Drop the old table (if it exists) so new columns are included
-    conn.execute("DROP TABLE IF EXISTS streamed_messages;")
-    # Recreate the table with the full schema
     conn.execute(_TABLE_SQL)
     conn.commit()
 
