@@ -193,10 +193,9 @@ py -m consumers.file_consumer_case
 OR
 py -m consumers.sqlite_consumer_case.py
 OR
-#py -m consumers.duckdb_consumer_case.py
 py -m consumers.duckdb_consumer_case
-
-py -m consumers.consumer_fintel
+Old command, may not work due to ".py"
+#py -m consumers.duckdb_consumer_case.py
 ```
 
 Mac/Linux:
@@ -297,7 +296,22 @@ duckdb data/buzz.duckdb -c "SELECT author, COUNT(*) c FROM streamed_messages GRO
 duckdb data/buzz.duckdb -c "SELECT category, AVG(sentiment) FROM streamed_messages GROUP BY category ORDER BY AVG(sentiment) DESC;"
 
 ```
+## NEW PRODUCER & CONSUMER
+Within this project, we implemented a new producer, consumer, and emitter set that allow us to push json messages, catch and consume them, and then transform the data through a duckDB OLAP which pushes transformed data to a SQLite DB and CSV file separately. 
+The data simulated in these scripts takes a base set of message content and categories then enriches them to add features like "Department" amd "Job Classification". The outcome being a collection of messages made available in a SQLite DB or CSV to perform analysis on. The data is engineered to simulate possible messages based on survey results from within a company.
 
+**Commands:**
+To run the Producer:
+```shell
+.venv\Scripts\Activate
+py -m producers.producer_case
+```
+
+To run the Consumer:
+```shell
+.venv\Scripts\Activate
+py -m consumers.consumer_fintel
+```
 ---
 
 ## How To Stop a Continuous Process
